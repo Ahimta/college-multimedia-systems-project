@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Project</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+  <header class="page-header">
+    <h1 class="text-center">Project</h1>
+  </header>
+
+  <main class="container text-center">
+    <article class="col-md-6"><img id="tomAndJerryImageElement"></article>
+    <article class="col-md-6"><img id="horseImageElement"></article>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <script>
+
+    var TOM_AND_JERRY = {framesCount: 12, chosenImages: 'tom-and-jerry', imageElement: document.getElementById('tomAndJerryImageElement')}
+    var HORSE = {framesCount: 8, chosenImages: 'horse', imageElement: document.getElementById('horseImageElement')}
+
+    function getImageUrl (chosenImages, frameNumber)
+    {
+      var IMAGES_PATH = './img/' + chosenImages + '/'
+      var fileName = ('frame_' + frameNumber + '_delay-0.08s.gif')
+      var filePath = (IMAGES_PATH + fileName)
+
+      return filePath
+    }
+
+    function getTickFunctiom (imageElement, chosenImages, framesCount)
+    {
+      var numberOfTicks = 0
+
+      return function ()
+      {
+        imageElement.src = getImageUrl(chosenImages, numberOfTicks)
+        numberOfTicks = (numberOfTicks + 1) % framesCount
+      }
+    }
+
+    function setSequenceInterval (sequenceObject)
+    {
+      var tickFunction = getTickFunctiom(sequenceObject.imageElement, sequenceObject.chosenImages, sequenceObject.framesCount)
+      var frequency = 1000 / sequenceObject.framesCount
+
+      return setInterval(tickFunction, frequency)
+    }
+
+    setSequenceInterval(TOM_AND_JERRY)
+    setSequenceInterval(HORSE)
+  </script>
+</body>
+</html>
